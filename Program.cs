@@ -6,12 +6,38 @@ namespace calculator
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the calculator!");
-            Console.Write("What is the first number? ");
-            string? firstNumber = Console.ReadLine();
-            Console.Write("What is the second number? ");
-            string? secondNumber = Console.ReadLine();
-            int answer = int.Parse(firstNumber) * int.Parse(secondNumber);
-            Console.WriteLine($"Multiplying these two numbers gives {answer}.");
+
+            Console.Write("Please enter the operator: ");
+            string? chosenOperator = Console.ReadLine();
+
+            Console.Write("Please enter the first number: ");
+            string? firstArgument = Console.ReadLine();
+            int firstNumber = int.Parse(firstArgument);
+
+            Console.Write("Please enter the second number: ");
+            string? secondArgument = Console.ReadLine();
+            int secondNumber = int.Parse(secondArgument);
+
+            int answer = 0;
+            if (chosenOperator == "+")
+            {
+                answer = firstNumber + secondNumber;
+            }
+            else if (chosenOperator == "-")
+            {
+                answer = firstNumber - secondNumber;
+
+            }
+            else if (chosenOperator == "*")
+            {
+                answer = firstNumber * secondNumber;
+            }
+            else if (chosenOperator == "/")
+            {
+                answer = firstNumber / secondNumber;
+            }    
+            Console.WriteLine($"The answer is {answer}.");
+            
         }
     }
 }
