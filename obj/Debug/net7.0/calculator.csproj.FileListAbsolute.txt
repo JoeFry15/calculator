@@ -1,0 +1,15 @@
+/Users/Coding/Documents/c_sharp/calculator/bin/Debug/net7.0/calculator
+/Users/Coding/Documents/c_sharp/calculator/bin/Debug/net7.0/calculator.deps.json
+/Users/Coding/Documents/c_sharp/calculator/bin/Debug/net7.0/calculator.runtimeconfig.json
+/Users/Coding/Documents/c_sharp/calculator/bin/Debug/net7.0/calculator.dll
+/Users/Coding/Documents/c_sharp/calculator/bin/Debug/net7.0/calculator.pdb
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/calculator.csproj.AssemblyReference.cache
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/calculator.GeneratedMSBuildEditorConfig.editorconfig
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/calculator.AssemblyInfoInputs.cache
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/calculator.AssemblyInfo.cs
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/calculator.csproj.CoreCompileInputs.cache
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/calculator.dll
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/refint/calculator.dll
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/calculator.pdb
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/calculator.genruntimeconfig.cache
+/Users/Coding/Documents/c_sharp/calculator/obj/Debug/net7.0/ref/calculator.dll
