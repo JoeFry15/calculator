@@ -10,34 +10,46 @@ namespace calculator
             Console.Write("Please enter the operator: ");
             string? chosenOperator = Console.ReadLine();
 
-            Console.Write("Please enter the first number: ");
-            string? firstArgument = Console.ReadLine();
-            int firstNumber = int.Parse(firstArgument);
+            Console.Write($"How many numbers do you want to {chosenOperator}? ");
+            string? numArgs = Console.ReadLine();
+            int numNums = int.Parse(numArgs);
 
-            Console.Write("Please enter the second number: ");
-            string? secondArgument = Console.ReadLine();
-            int secondNumber = int.Parse(secondArgument);
 
-            int answer = 0;
-            if (chosenOperator == "+")
-            {
-                answer = firstNumber + secondNumber;
-            }
-            else if (chosenOperator == "-")
-            {
-                answer = firstNumber - secondNumber;
+            int[] chosenNums = new int[numNums];
 
-            }
-            else if (chosenOperator == "*")
+            for (int i = 0; i < numNums; i++)
             {
-                answer = firstNumber * secondNumber;
+                Console.Write($"Please enter number {i+1}: ");
+                string? chosenArg = Console.ReadLine();
+                int chosenNum = int.Parse(chosenArg);
+                chosenNums[i] = chosenNum;
             }
-            else if (chosenOperator == "/")
+
+            int answer = chosenNums[0];
+            for (int i = 1; i < numNums; i++)
             {
-                answer = firstNumber / secondNumber;
-            }    
+                if (chosenOperator == "+")
+                {
+                    answer += chosenNums[i];
+                }
+                else if (chosenOperator == "-")
+                {
+                    answer -= chosenNums[i];;
+
+                }
+                else if (chosenOperator == "*")
+                {
+                    answer *= chosenNums[i];;
+                }
+                else if (chosenOperator == "/")
+                {
+                    answer /= chosenNums[i];;
+                }    
+            }
+
             Console.WriteLine($"The answer is {answer}.");
-            
+
+            Console.ReadLine();
         }
     }
 }
