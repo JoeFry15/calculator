@@ -5,51 +5,93 @@ namespace calculator
     {
         static void Main(string[] args)
         {
+            PrintWelcomeMessage();
+            bool carryOn = true;
+            while (carryOn)
+            {
+                Console.WriteLine("The answer is: " + PerformOneCalculation());
+                Console.WriteLine("Do you wish to continue? y/n: ");
+                string? carryOnInput = Console.ReadLine();
+                carryOn = carryOnInput == "y" ? true : false;
+            }
+        }
+
+        private static void PrintWelcomeMessage()
+        {
             Console.WriteLine("Welcome to the calculator!");
+        }
 
-            Console.Write("Please enter the operator: ");
-            string? chosenOperator = Console.ReadLine();
+        private static int PerformOneCalculation()
+        {
+            string chosenOperator = ChooseOperator("Please enter the operator: ");
 
-            Console.Write($"How many numbers do you want to {chosenOperator}? ");
-            string? numArgs = Console.ReadLine();
-            int numNums = int.Parse(numArgs);
+            int numNums = AcceptInput($"How many numbers do you want to {chosenOperator}? ");
 
+            int[] chosenNums = CreateArr(numNums);
 
-            int[] chosenNums = new int[numNums];
+            int finalAnswer = DoCalculation(chosenOperator, numNums, chosenNums);
 
-            for (int i = 0; i < numNums; i++)
+            return finalAnswer;
+        }
+
+        private static int AcceptInput(string message)
+        {
+            int chosenNum;
+            do
             {
-                Console.Write($"Please enter number {i+1}: ");
-                string? chosenArg = Console.ReadLine();
-                int chosenNum = int.Parse(chosenArg);
-                chosenNums[i] = chosenNum;
-            }
+                Console.Write(message);
+            } while (!int.TryParse(Console.ReadLine(), out chosenNum));
 
-            int answer = chosenNums[0];
-            for (int i = 1; i < numNums; i++)
+            return chosenNum;
+        } 
+
+        private static string ChooseOperator(string message)
+        {
+            string chosenOperator;
+            do
             {
-                if (chosenOperator == "+")
+                Console.Write(message);
+                chosenOperator = Console.ReadLine()!;
+            } while (!(chosenOperator == "+" || chosenOperator == "-" || chosenOperator == "*" || chosenOperator == "/"));
+            return chosenOperator;
+        }
+
+        private static int DoCalculation(string opChoice, int count, int[] numsChoice)
+        {
+            int answer = numsChoice[0];
+            for (int i = 1; i < count; i++)
+            {
+                if (opChoice == "+")
                 {
-                    answer += chosenNums[i];
+                    answer += numsChoice[i];
                 }
-                else if (chosenOperator == "-")
+                else if (opChoice == "-")
                 {
-                    answer -= chosenNums[i];;
+                    answer -= numsChoice[i];;
 
                 }
-                else if (chosenOperator == "*")
+                else if (opChoice == "*")
                 {
-                    answer *= chosenNums[i];;
+                    answer *= numsChoice[i];;
                 }
-                else if (chosenOperator == "/")
+                else if (opChoice == "/")
                 {
-                    answer /= chosenNums[i];;
-                }    
+                    answer /= numsChoice[i];;
+                }
             }
+            return answer;
+        }
 
-            Console.WriteLine($"The answer is {answer}.");
+        private static int[] CreateArr(int numCount)
+        {
+            int[] inputNumArr = new int[numCount];
 
-            Console.ReadLine();
+            for (int i = 0; i < numCount; i++)
+            {
+                int inputNum = AcceptInput($"Please enter number {i+1}: ");
+                inputNumArr[i] = inputNum;
+            }
+            return inputNumArr;
         }
     }
 }
