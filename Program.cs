@@ -1,18 +1,30 @@
-﻿/* A calculator that allows the user to choose the operator, the number of values to operate on, and the values.
-The program then calculates the answer, prints this to the console, and asks the user if they wish to do another
-calculation. */
+﻿/* A calculator that allows the user to choose between number calculation mode and date calculation mode. With
+number calculation mode the program asks for the operator, the number of values to operate on, and the values.
+The program then calculates the answer and prints this to the console. The date calculation mode asks for a date
+and the number of days to be added, then calculates and prints the result. The program asks the user if they wish
+to do another calculation. */
 
 namespace calculator
 {
     class Program
     {
+        private const int NumberCalculator = 1;
+        private const int DateCalculator = 1;
         static void Main(string[] args)
         {
             PrintWelcomeMessage();
             bool carryOn = true;
             while (carryOn)
             {
-                Console.WriteLine("The answer is: " + PerformOneCalculation());
+                int calculationMode = AskForCalculationMode();
+                if (calculationMode == NumberCalculator)
+                {
+                    Console.WriteLine(String.Format("The answer is: {0}", PerformOneCalculation()));
+                }
+                else
+                {
+                    Console.WriteLine(String.Format("The answer is: {0}", PerformDateCalculation()));
+                }
                 Console.WriteLine("Do you wish to do another calculation? y/n: ");
                 string? carryOnInput = Console.ReadLine();
                 carryOn = carryOnInput == "y" ? true : false;
@@ -28,7 +40,7 @@ namespace calculator
         {
             string chosenOperator = ChooseOperator("Please enter the operator: ");
 
-            int numNums = AcceptInput($"How many numbers do you want to {chosenOperator}? ");
+            int numNums = AcceptNumInput($"How many numbers do you want to {chosenOperator}? ");
 
             int[] chosenNums = CreateArr(numNums);
 
@@ -37,7 +49,7 @@ namespace calculator
             return finalAnswer;
         }
 
-        private static int AcceptInput(string message)
+        private static int AcceptNumInput(string message)
         {
             int chosenNum;
             do
@@ -91,10 +103,37 @@ namespace calculator
 
             for (int i = 0; i < numCount; i++)
             {
-                int inputNum = AcceptInput($"Please enter number {i+1}: ");
+                int inputNum = AcceptNumInput($"Please enter number {i+1}: ");
                 inputNumArr[i] = inputNum;
             }
             return inputNumArr;
+        }
+
+        private static int AskForCalculationMode()
+        {
+            Console.Write("Which calculator do you want?\n1) Numbers\n2) Dates\n> ");
+            string answer = Console.ReadLine()!;
+            int answerInt = int.Parse(answer);
+            return answerInt;
+        }
+
+        private static string PerformDateCalculation()
+        {
+            DateTime dateInput = AcceptDateInput("Please enter a date: ");
+
+            int daysAdded = AcceptNumInput("Please enter the number of days to add: ");
+
+            return dateInput.AddDays(daysAdded).ToShortDateString();
+        }
+
+        private static DateTime AcceptDateInput(string message)
+        {
+            DateTime dateInput;
+            do
+            {
+                Console.Write(message);
+            } while (!DateTime.TryParse(Console.ReadLine(), out dateInput));
+            return dateInput;
         }
     }
 }
