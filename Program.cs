@@ -1,4 +1,7 @@
-﻿
+﻿/* A calculator that allows the user to choose the operator, the number of values to operate on, and the values.
+The program then calculates the answer, prints this to the console, and asks the user if they wish to do another
+calculation. */
+
 namespace calculator
 {
     class Program
@@ -10,7 +13,7 @@ namespace calculator
             while (carryOn)
             {
                 Console.WriteLine("The answer is: " + PerformOneCalculation());
-                Console.WriteLine("Do you wish to continue? y/n: ");
+                Console.WriteLine("Do you wish to do another calculation? y/n: ");
                 string? carryOnInput = Console.ReadLine();
                 carryOn = carryOnInput == "y" ? true : false;
             }
