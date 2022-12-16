@@ -8,8 +8,8 @@ namespace calculator
 {
     class Program
     {
-        private const int NumberCalculator = 1;
-        private const int DateCalculator = 1;
+        private const int NumberCalculatorMode = 1;
+        private const int DateCalculatorMode = 1;
         static void Main(string[] args)
         {
             PrintWelcomeMessage();
@@ -17,13 +17,13 @@ namespace calculator
             while (carryOn)
             {
                 int calculationMode = AskForCalculationMode();
-                if (calculationMode == NumberCalculator)
+                if (calculationMode == NumberCalculatorMode)
                 {
-                    Console.WriteLine(String.Format("The answer is: {0}", PerformOneCalculation()));
+                    Console.WriteLine(String.Format("The answer is: {0}", new NumberCalculator().PerformOneCalculation()));
                 }
                 else
                 {
-                    Console.WriteLine(String.Format("The answer is: {0}", PerformDateCalculation()));
+                    Console.WriteLine(String.Format("The answer is: {0}", new DateCalculator().PerformDateCalculation()));
                 }
                 Console.WriteLine("Do you wish to do another calculation? y/n: ");
                 string? carryOnInput = Console.ReadLine();
@@ -36,7 +36,18 @@ namespace calculator
             Console.WriteLine("Welcome to the calculator!");
         }
 
-        private static int PerformOneCalculation()
+        private static int AskForCalculationMode()
+        {
+            Console.Write("Which calculator do you want?\n1) Numbers\n2) Dates\n> ");
+            string answer = Console.ReadLine()!;
+            int answerInt = int.Parse(answer);
+            return answerInt;
+        }
+    }
+
+    class NumberCalculator
+    {
+        public int PerformOneCalculation()
         {
             string chosenOperator = ChooseOperator("Please enter the operator: ");
 
@@ -49,17 +60,6 @@ namespace calculator
             return finalAnswer;
         }
 
-        private static int AcceptNumInput(string message)
-        {
-            int chosenNum;
-            do
-            {
-                Console.Write(message);
-            } while (!int.TryParse(Console.ReadLine(), out chosenNum));
-
-            return chosenNum;
-        } 
-
         private static string ChooseOperator(string message)
         {
             string chosenOperator;
@@ -69,6 +69,18 @@ namespace calculator
                 chosenOperator = Console.ReadLine()!;
             } while (!(chosenOperator == "+" || chosenOperator == "-" || chosenOperator == "*" || chosenOperator == "/"));
             return chosenOperator;
+        }
+
+        private static int[] CreateArr(int numCount)
+        {
+            int[] inputNumArr = new int[numCount];
+
+            for (int i = 0; i < numCount; i++)
+            {
+                int inputNum = AcceptNumInput($"Please enter number {i+1}: ");
+                inputNumArr[i] = inputNum;
+            }
+            return inputNumArr;
         }
 
         private static int DoCalculation(string opChoice, int count, int[] numsChoice)
@@ -97,27 +109,21 @@ namespace calculator
             return answer;
         }
 
-        private static int[] CreateArr(int numCount)
+        private static int AcceptNumInput(string message)
         {
-            int[] inputNumArr = new int[numCount];
-
-            for (int i = 0; i < numCount; i++)
+            int chosenNum;
+            do
             {
-                int inputNum = AcceptNumInput($"Please enter number {i+1}: ");
-                inputNumArr[i] = inputNum;
-            }
-            return inputNumArr;
-        }
+                Console.Write(message);
+            } while (!int.TryParse(Console.ReadLine(), out chosenNum));
 
-        private static int AskForCalculationMode()
-        {
-            Console.Write("Which calculator do you want?\n1) Numbers\n2) Dates\n> ");
-            string answer = Console.ReadLine()!;
-            int answerInt = int.Parse(answer);
-            return answerInt;
-        }
+            return chosenNum;
+        } 
+    }
 
-        private static string PerformDateCalculation()
+    class DateCalculator
+    {
+        public string PerformDateCalculation()
         {
             DateTime dateInput = AcceptDateInput("Please enter a date: ");
 
@@ -135,5 +141,15 @@ namespace calculator
             } while (!DateTime.TryParse(Console.ReadLine(), out dateInput));
             return dateInput;
         }
+        private static int AcceptNumInput(string message)
+        {
+            int chosenNum;
+            do
+            {
+                Console.Write(message);
+            } while (!int.TryParse(Console.ReadLine(), out chosenNum));
+
+            return chosenNum;
+        } 
     }
 }
