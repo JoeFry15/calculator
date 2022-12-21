@@ -4,6 +4,9 @@ The program then calculates the answer and prints this to the console. The date 
 and the number of days to be added, then calculates and prints the result. The program asks the user if they wish
 to do another calculation. */
 
+
+using Calculator;
+
 namespace calculator
 {
     class Program
@@ -13,17 +16,22 @@ namespace calculator
         static void Main(string[] args)
         {
             PrintWelcomeMessage();
+            new AnswerLogger().clearLog();
             bool carryOn = true;
             while (carryOn)
             {
                 int calculationMode = AskForCalculationMode();
                 if (calculationMode == NumberCalculatorMode)
                 {
-                    Console.WriteLine(String.Format("The answer is: {0}", new NumberCalculator().PerformOneCalculation()));
+                    int answer = new NumberCalculator().PerformOneCalculation();
+                    Console.WriteLine(String.Format("The answer is: {0}", answer));
+                    new AnswerLogger().answerLog(answer.ToString());
                 }
                 else
                 {
-                    Console.WriteLine(String.Format("The answer is: {0}", new DateCalculator().PerformDateCalculation()));
+                    string answer = new DateCalculator().PerformDateCalculation();
+                    Console.WriteLine(String.Format("The answer is: {0}", answer));
+                    new AnswerLogger().answerLog(answer);
                 }
                 Console.WriteLine("Do you wish to do another calculation? y/n: ");
                 string? carryOnInput = Console.ReadLine();
@@ -150,6 +158,6 @@ namespace calculator
             } while (!int.TryParse(Console.ReadLine(), out chosenNum));
 
             return chosenNum;
-        } 
+        }
     }
 }
