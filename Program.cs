@@ -5,33 +5,32 @@ and the number of days to be added, then calculates and prints the result. The p
 to do another calculation. */
 
 
-using Calculator;
-
 namespace calculator
 {
     class Program
     {
-        private const int NumberCalculatorMode = 1;
-        private const int DateCalculatorMode = 1;
+        private const int numberCalculatorMode = 1;
+        private const int dateCalculatorMode = 2;
+
         static void Main(string[] args)
         {
             PrintWelcomeMessage();
-            new AnswerLogger().clearLog();
+            new LogClearer().ClearLog();
             bool carryOn = true;
             while (carryOn)
             {
                 int calculationMode = AskForCalculationMode();
-                if (calculationMode == NumberCalculatorMode)
+                if (calculationMode == numberCalculatorMode)
                 {
                     int answer = new NumberCalculator().PerformOneCalculation();
-                    Console.WriteLine(String.Format("The answer is: {0}", answer));
-                    new AnswerLogger().answerLog(answer.ToString());
+                    Console.WriteLine($"The answer is: {answer}");
+                    new AnswerLogger().LogAnswer(answer.ToString());
                 }
-                else
+                else if (calculationMode == dateCalculatorMode)
                 {
                     string answer = new DateCalculator().PerformDateCalculation();
-                    Console.WriteLine(String.Format("The answer is: {0}", answer));
-                    new AnswerLogger().answerLog(answer);
+                    Console.WriteLine($"The answer is: {answer}");
+                    new AnswerLogger().LogAnswer(answer);
                 }
                 Console.WriteLine("Do you wish to do another calculation? y/n: ");
                 string? carryOnInput = Console.ReadLine();
@@ -63,7 +62,7 @@ namespace calculator
 
             int[] chosenNums = CreateArr(numNums);
 
-            int finalAnswer = DoCalculation(chosenOperator, numNums, chosenNums);
+            int finalAnswer = CalculateResult(chosenOperator, numNums, chosenNums);
 
             return finalAnswer;
         }
@@ -91,27 +90,25 @@ namespace calculator
             return inputNumArr;
         }
 
-        private static int DoCalculation(string opChoice, int count, int[] numsChoice)
+        private static int CalculateResult(string opChoice, int count, int[] numbersChoice)
         {
-            int answer = numsChoice[0];
+            int answer = numbersChoice[0];
             for (int i = 1; i < count; i++)
             {
-                if (opChoice == "+")
+                switch (opChoice)
                 {
-                    answer += numsChoice[i];
-                }
-                else if (opChoice == "-")
-                {
-                    answer -= numsChoice[i];;
-
-                }
-                else if (opChoice == "*")
-                {
-                    answer *= numsChoice[i];;
-                }
-                else if (opChoice == "/")
-                {
-                    answer /= numsChoice[i];;
+                    case "+":
+                        answer += numbersChoice[i];
+                        break;
+                    case "-":
+                        answer -= numbersChoice[i];
+                        break;
+                    case "*":
+                        answer *= numbersChoice[i];
+                        break;
+                    case "/":
+                        answer /= numbersChoice[i];
+                        break;
                 }
             }
             return answer;
@@ -119,13 +116,17 @@ namespace calculator
 
         private static int AcceptNumInput(string message)
         {
-            int chosenNum;
-            do
+            int chosenNumber;
+            while(true)
             {
                 Console.Write(message);
-            } while (!int.TryParse(Console.ReadLine(), out chosenNum));
-
-            return chosenNum;
+                if (int.TryParse(Console.ReadLine(), out chosenNumber))
+                {
+                    break;
+                }
+                Console.WriteLine("The number you have entered is not valid, please re-enter a valid number.");
+            }
+            return chosenNumber;
         } 
     }
 
@@ -151,13 +152,40 @@ namespace calculator
         }
         private static int AcceptNumInput(string message)
         {
-            int chosenNum;
+            int operandNumbers;
             do
             {
                 Console.Write(message);
-            } while (!int.TryParse(Console.ReadLine(), out chosenNum));
+            } while (!int.TryParse(Console.ReadLine(), out operandNumbers));
 
-            return chosenNum;
+            return operandNumbers;
         }
+    }
+
+    class AnswerLogger
+    {
+        public void LogAnswer(string text)
+        {
+            string path = @"/Users/Coding/Documents/c_sharp/calculator/log.txt";
+            if (!File.Exists(path))
+            {
+                File.WriteAllText(path, text);
+            }
+            else
+            {
+                File.AppendAllText(path, $"\n{text}");
+            }
+        }
+    }
+
+    class LogClearer
+    {
+        public void ClearLog()
+        {
+            if (File.Exists(@"/Users/Coding/Documents/c_sharp/calculator/log.txt"))
+            {
+                File.Delete(@"/Users/Coding/Documents/c_sharp/calculator/log.txt");
+            }
+        }   
     }
 }
